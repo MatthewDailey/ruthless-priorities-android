@@ -1,17 +1,27 @@
 package com.reactiverobot.priorities;
 
+import android.app.NotificationManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.inject.Inject;
 
-public class MainActivity extends ActionBarActivity {
+import roboguice.activity.RoboActivity;
+
+
+public class MainActivity extends RoboActivity {
+
+    @Inject
+    NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("TAG", String.valueOf(notificationManager.hashCode()));
     }
 
     @Override
