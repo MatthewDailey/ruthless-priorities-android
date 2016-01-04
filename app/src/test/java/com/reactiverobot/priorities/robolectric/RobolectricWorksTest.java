@@ -1,5 +1,7 @@
-package com.reactiverobot.priorities;
+package com.reactiverobot.priorities.robolectric;
 
+
+import com.reactiverobot.priorities.BuildConfig;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
