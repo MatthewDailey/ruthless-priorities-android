@@ -1,6 +1,5 @@
 package com.reactiverobot.priorities.activity;
 
-import com.reactiverobot.priorities.MainActivity;
 import com.reactiverobot.priorities.robolectric.AbstractRoboTest;
 
 import org.junit.Test;

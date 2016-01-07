@@ -1,13 +1,13 @@
-package com.reactiverobot.priorities;
+package com.reactiverobot.priorities.activity;
 
 import android.app.NotificationManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.inject.Inject;
+import com.reactiverobot.priorities.R;
 
 import roboguice.activity.RoboActivity;
 
