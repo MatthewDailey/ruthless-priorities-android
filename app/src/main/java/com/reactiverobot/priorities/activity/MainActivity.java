@@ -9,10 +9,11 @@ import android.view.MenuItem;
 import com.google.inject.Inject;
 import com.reactiverobot.priorities.R;
 
+import roboguice.activity.RoboActionBarActivity;
 import roboguice.activity.RoboActivity;
 
 
-public class MainActivity extends RoboActivity {
+public class MainActivity extends RoboActionBarActivity {
 
     @Inject
     NotificationManager notificationManager;
@@ -21,7 +22,7 @@ public class MainActivity extends RoboActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("TAG", String.valueOf(notificationManager.hashCode()));
+        Log.d("TAG", String.valueOf("Launched new app!"));
     }
 
     @Override
