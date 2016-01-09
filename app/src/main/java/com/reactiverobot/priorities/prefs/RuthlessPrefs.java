@@ -3,13 +3,21 @@ package com.reactiverobot.priorities.prefs;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.roboguice.shaded.goole.common.collect.Lists;
+
+import java.util.List;
+
 public class RuthlessPrefs {
 
     private static final String RUTHLESS_PREFS_FILE = "ruthless_prefs_file";
-    private static final int DEFAULT_TOP_PRIORITIES_COUNT = 3;
+
     private static final String TOP_PRIORITIES_COUNT_PREF = "top_priorities_count_pref";
-    private static final int DEFAULT_NOT_PRIORITIES_COUNT = 1;
     private static final String NOT_PRIORITIES_COUNT_PREF = "not_priorities_count_pref";
+    private static final String TOP_PRIORITIES = "top_priorities";
+    private static final String NOT_PRIORITIES = "not_priorities";
 
     private final Context context;
 
@@ -26,8 +34,7 @@ public class RuthlessPrefs {
     }
 
     public int getTopPrioritiesCount() {
-        return getRuthlessPrefs().getInt(TOP_PRIORITIES_COUNT_PREF,
-                DEFAULT_TOP_PRIORITIES_COUNT);
+        return getRuthlessPrefs().getInt(TOP_PRIORITIES_COUNT_PREF, 3);
     }
 
     public void setTopPrioritiesCount(int topPrioritiesCount) {
@@ -35,11 +42,39 @@ public class RuthlessPrefs {
     }
 
     public int getNotPrioritiesCount() {
-        return getRuthlessPrefs().getInt(NOT_PRIORITIES_COUNT_PREF,
-                DEFAULT_NOT_PRIORITIES_COUNT);
+        return getRuthlessPrefs().getInt(NOT_PRIORITIES_COUNT_PREF, 1);
     }
 
     public void setNotPrioritiesCount(int notPrioritiesCount) {
         getRuthlessPrefs().edit().putInt(NOT_PRIORITIES_COUNT_PREF, notPrioritiesCount).apply();
+    }
+
+    public List<String> getTopPriorities() {
+        String topPrioritiesJson = getRuthlessPrefs().getString(TOP_PRIORITIES, "");
+        return parseJsonListOfString(topPrioritiesJson);
+    }
+
+    public void setTopPriorities(List<String> topPriorities) {
+        Gson gson = new Gson();
+        getRuthlessPrefs().edit().putString(TOP_PRIORITIES, gson.toJson(topPriorities)).apply();
+    }
+
+    public List<String> getNotPriorities() {
+        String notPrioritiesJson = getRuthlessPrefs().getString(NOT_PRIORITIES, "");
+        return parseJsonListOfString(notPrioritiesJson);
+    }
+
+    public void setNotPriorities(List<String> notPriorities) {
+        Gson gson = new Gson();
+        getRuthlessPrefs().edit().putString(NOT_PRIORITIES, gson.toJson(notPriorities)).apply();
+    }
+
+    private List<String> parseJsonListOfString(String json) {
+        if (json.isEmpty()) {
+            return Lists.newArrayList();
+        } else {
+            Gson gson = new Gson();
+            return gson.fromJson(json, new TypeToken<List<String>>(){}.getType());
+        }
     }
 }
