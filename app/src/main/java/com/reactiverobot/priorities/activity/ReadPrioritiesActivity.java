@@ -1,19 +1,22 @@
 package com.reactiverobot.priorities.activity;
 
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.reactiverobot.priorities.R;
 import com.reactiverobot.priorities.prefs.RuthlessPrefs;
 
+import java.util.List;
+
 import roboguice.activity.RoboActionBarActivity;
 import roboguice.inject.InjectView;
 
-
-public class SetPrioritiesActivity extends RoboActionBarActivity {
+public class ReadPrioritiesActivity extends RoboActionBarActivity {
 
     @InjectView(R.id.top_priorities_layout) LinearLayout topPrioritiyLayout;
     @InjectView(R.id.not_priorities_layout) LinearLayout notPrioritiyLayout;
@@ -21,25 +24,25 @@ public class SetPrioritiesActivity extends RoboActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         RuthlessPrefs prefs = RuthlessPrefs.fromContext(this);
-
-        addEditTextToLayout(prefs.getTopPrioritiesCount(), topPrioritiyLayout);
-        addEditTextToLayout(prefs.getNotPrioritiesCount(), notPrioritiyLayout);
+        addPriorityTextViews(prefs.getTopPriorities(), topPrioritiyLayout);
+        addPriorityTextViews(prefs.getNotPriorities(), notPrioritiyLayout);
     }
 
-    private void addEditTextToLayout(int editTextCount, LinearLayout layout) {
-        for (int prefIndex = 0; prefIndex < editTextCount; prefIndex++) {
-            layout.addView(new EditText(this));
+    private void addPriorityTextViews(List<String> priorities, LinearLayout layout) {
+        for (String priority : priorities) {
+            TextView prioritiesText = new TextView(this);
+            prioritiesText.setText(priority);
+            layout.addView(prioritiesText);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        // getMenuInflater().inflate(R.menu.menu_read_priorities, menu);
         return true;
     }
 
