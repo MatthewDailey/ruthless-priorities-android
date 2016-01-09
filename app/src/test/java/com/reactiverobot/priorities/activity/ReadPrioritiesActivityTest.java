@@ -1,5 +1,7 @@
 package com.reactiverobot.priorities.activity;
 
+import android.content.Intent;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,6 +15,8 @@ import org.robolectric.Robolectric;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.robolectric.Shadows.shadowOf;
 
 
 public class ReadPrioritiesActivityTest extends AbstractRoboTest {
@@ -27,13 +31,13 @@ public class ReadPrioritiesActivityTest extends AbstractRoboTest {
     @Test
     public void testPrioritiesNotSet() {
         ReadPrioritiesActivity readPrioritiesActivity = Robolectric.setupActivity(ReadPrioritiesActivity.class);
-        LinearLayout topPrioritiesLayout = (LinearLayout) readPrioritiesActivity.findViewById(
-                R.id.top_priorities_layout);
-        assertEquals(1, topPrioritiesLayout.getChildCount());
+        Button setPrioritiesButton = (Button) readPrioritiesActivity.findViewById(
+                R.id.set_priorities_button);
 
-        LinearLayout notPrioritiesLayout = (LinearLayout) readPrioritiesActivity.findViewById(
-                R.id.not_priorities_layout);
-        assertEquals(1, notPrioritiesLayout.getChildCount());
+        setPrioritiesButton.performClick();
+
+        Intent expectedIntent = new Intent(readPrioritiesActivity, SetPrioritiesActivity.class);
+        assertEquals(expectedIntent, shadowOf(readPrioritiesActivity).getNextStartedActivity());
     }
 
     @Test
