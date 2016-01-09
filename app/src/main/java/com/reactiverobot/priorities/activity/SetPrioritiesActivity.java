@@ -5,24 +5,38 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.google.inject.Inject;
 import com.reactiverobot.priorities.R;
+import com.reactiverobot.priorities.prefs.RuthlessPrefs;
 
 import roboguice.activity.RoboActionBarActivity;
-import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 
 
-public class MainActivity extends RoboActionBarActivity {
+public class SetPrioritiesActivity extends RoboActionBarActivity {
 
-    @Inject
-    NotificationManager notificationManager;
+    @InjectView(R.id.top_priorities_layout) LinearLayout topPrioritiyLayout;
+    @InjectView(R.id.not_priorities_layout) LinearLayout notPrioritiyLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Log.d("TAG", String.valueOf("Launched new app!"));
+
+        setContentView(R.layout.activity_editing);
+
+        RuthlessPrefs prefs = RuthlessPrefs.fromContext(this);
+
+        addEditTextToLayout(prefs.getTopPrioritiesCount(), topPrioritiyLayout);
+        addEditTextToLayout(prefs.getNotPrioritiesCount(), notPrioritiyLayout);
+    }
+
+    private void addEditTextToLayout(int editTextCount, LinearLayout layout) {
+        for (int prefIndex = 0; prefIndex < editTextCount; prefIndex++) {
+            layout.addView(new EditText(this));
+        }
     }
 
     @Override
