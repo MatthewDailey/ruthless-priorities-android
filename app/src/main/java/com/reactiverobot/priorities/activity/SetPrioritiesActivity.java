@@ -3,11 +3,16 @@ package com.reactiverobot.priorities.activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.reactiverobot.priorities.R;
 import com.reactiverobot.priorities.prefs.RuthlessPrefs;
+
+import org.roboguice.shaded.goole.common.collect.Lists;
+
+import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
 import roboguice.inject.InjectView;
@@ -40,7 +45,7 @@ public class SetPrioritiesActivity extends RoboActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -51,10 +56,33 @@ public class SetPrioritiesActivity extends RoboActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_save) {
+            RuthlessPrefs.fromContext(this).setTopPriorities(readPrioritiesFromLayout(topPrioritiyLayout));
+            RuthlessPrefs.fromContext(this).setNotPriorities(readPrioritiesFromLayout(notPrioritiyLayout));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * @return A list of all non-empty strings in child EditText fields of the input layout.
+     */
+    private List<String> readPrioritiesFromLayout(LinearLayout layout) {
+        List<String> topPriorities = Lists.newArrayList();
+
+        for (int childIndexOfPriorityInput = 0;
+             childIndexOfPriorityInput < layout.getChildCount();
+             childIndexOfPriorityInput++) {
+
+            View priorityInputView = layout.getChildAt(childIndexOfPriorityInput);
+            if (priorityInputView instanceof EditText) {
+                String inputContents = ((EditText) priorityInputView).getText().toString();
+                if (!inputContents.isEmpty()) {
+                    topPriorities.add(inputContents);
+                }
+            }
+        }
+        return topPriorities;
     }
 }
