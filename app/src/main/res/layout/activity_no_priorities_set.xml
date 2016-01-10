@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Priorities Have Not Yet Been Set Today."
+        android:text="Priorities have not been set today."
         android:id="@+id/no_priorities_text"
         android:layout_above="@+id/set_priorities_button"
         android:layout_centerHorizontal="true"
