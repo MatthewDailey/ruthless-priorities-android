@@ -66,6 +66,8 @@ public class ReadPrioritiesActivity extends RoboActionBarActivity {
         for (String priority : priorities) {
             TextView prioritiesText = new TextView(this);
             prioritiesText.setText(priority);
+            prioritiesText.setPadding(0, 20, 0, 0);
+            prioritiesText.setTextSize(25);
             layout.addView(prioritiesText);
         }
     }

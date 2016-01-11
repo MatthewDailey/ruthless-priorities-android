@@ -1,7 +1,4 @@
 <resources>
-    <string name="app_name">Ruthless Priorities</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Priorities</string>
     <string name="title_activity_read_priorities">Ruthless Priorities</string>
 </resources>

@@ -31,6 +31,7 @@ public class RuthlessPriorityReminder extends RoboBroadcastReceiver {
                 .setAutoCancel(true)
                 .setColor(0xBA0000)
                 .setSmallIcon(R.drawable.blank_skull);
+
         notificationManager.notify(PRIORITY_REMINDER_ID, notificationbBuilder.build());
     }
 
