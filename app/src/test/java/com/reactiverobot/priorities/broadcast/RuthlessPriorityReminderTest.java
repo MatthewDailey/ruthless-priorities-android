@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.google.common.base.Optional;
 import com.reactiverobot.priorities.robolectric.AbstractRoboTest;
 
 import org.junit.Test;
@@ -23,30 +24,29 @@ public class RuthlessPriorityReminderTest extends AbstractRoboTest {
 
     @Test
     public void testBroadcastRecieverRegistered() {
+        assertTrue(getRuthlessPriorityReminderReceiver().isPresent());
+    }
+
+    private Optional<BroadcastReceiver> getRuthlessPriorityReminderReceiver() {
         List<ShadowApplication.Wrapper> registeredReceivers =
                 shadowOf(context).getRegisteredReceivers();
 
         assertFalse(registeredReceivers.isEmpty());
 
-        boolean receiverFound = false;
         for (ShadowApplication.Wrapper wrapper : registeredReceivers) {
-            if (!receiverFound) {
-                receiverFound = RuthlessPriorityReminder.class.getSimpleName().equals(
-                        wrapper.broadcastReceiver.getClass().getSimpleName());
+            if (RuthlessPriorityReminder.class.getSimpleName().equals(
+                        wrapper.broadcastReceiver.getClass().getSimpleName())) {
+                return Optional.of(wrapper.broadcastReceiver);
             }
         }
-
-        assertTrue(receiverFound);
+        return Optional.absent();
     }
 
     @Test
     public void testBroadcastCausesNotificationToLaunch() {
-        Intent broadcastIntent = new Intent(null, RuthlessPriorityReminder.class);
-        List<BroadcastReceiver> receiversForIntent =
-                shadowOf(context).getReceiversForIntent(broadcastIntent);
-        assertEquals(1, receiversForIntent.size());
+        Intent broadcastIntent = new Intent(context, RuthlessPriorityReminder.class);
 
-        receiversForIntent.get(0).onReceive(context, broadcastIntent);
+        getRuthlessPriorityReminderReceiver().get().onReceive(context, broadcastIntent);
 
         ShadowNotificationManager shadowNotificationManager = shadowOf(
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE));
