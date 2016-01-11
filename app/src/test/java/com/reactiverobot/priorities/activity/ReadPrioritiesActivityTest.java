@@ -1,5 +1,7 @@
 package com.reactiverobot.priorities.activity;
 
+import android.app.AlarmManager;
+import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -12,12 +14,11 @@ import com.reactiverobot.priorities.robolectric.AbstractRoboTest;
 import org.junit.Test;
 import org.roboguice.shaded.goole.common.collect.Lists;
 import org.robolectric.Robolectric;
+import org.robolectric.shadows.ShadowAlarmManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
 
@@ -67,9 +68,14 @@ public class ReadPrioritiesActivityTest extends AbstractRoboTest {
     }
 
     @Test
-    public void testSetsStartupPref() {
+    public void testSetsStartupAndLaunchesRepeatingAlarmPref() {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        ShadowAlarmManager shadowAlarmManager = shadowOf(alarmManager);
+        assertEquals(0, shadowAlarmManager.getScheduledAlarms().size());
+
         Robolectric.setupActivity(ReadPrioritiesActivity.class);
         assertFalse(RuthlessPrefs.fromContext(context).isFirstStartUp());
+        assertEquals(1, shadowAlarmManager.getScheduledAlarms().size());
     }
 
 }

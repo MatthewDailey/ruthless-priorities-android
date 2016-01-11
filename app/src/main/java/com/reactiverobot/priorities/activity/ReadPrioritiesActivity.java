@@ -1,6 +1,7 @@
 package com.reactiverobot.priorities.activity;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 
 import com.google.inject.Inject;
 import com.reactiverobot.priorities.R;
+import com.reactiverobot.priorities.broadcast.RuthlessPriorityReminder;
 import com.reactiverobot.priorities.prefs.RuthlessPrefs;
 
+import java.util.Calendar;
 import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
@@ -31,7 +34,19 @@ public class ReadPrioritiesActivity extends RoboActionBarActivity {
     }
 
     private void setDailyReminder() {
-        // TODO
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR, 6);
+        calendar.set(Calendar.AM_PM, Calendar.AM);
+
+        Intent showNotificationIntent = new Intent(this, RuthlessPriorityReminder.class);
+        PendingIntent pendingShowNotificationIntent =
+                PendingIntent.getBroadcast(this, 0, showNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000*60*60*24,
+                pendingShowNotificationIntent);
     }
 
     @Override
