@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.reactiverobot.priorities.R;
+import com.reactiverobot.priorities.broadcast.RuthlessPriorityReminder;
 import com.reactiverobot.priorities.prefs.RuthlessPrefs;
 
 import java.util.List;
@@ -25,7 +26,13 @@ public class ReadPrioritiesActivity extends RoboActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent broadcastIntent = new Intent(this, RuthlessPriorityReminder.class);
+        sendBroadcast(broadcastIntent);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         RuthlessPrefs prefs = RuthlessPrefs.fromContext(this);
         if (prefs.getTopPriorities().isEmpty() && prefs.getNotPriorities().isEmpty()) {
             setNoPrioritiesSavedContentView();
