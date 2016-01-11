@@ -22,8 +22,6 @@ import roboguice.inject.InjectView;
 
 public class SetPrioritiesActivity extends RoboActionBarActivity {
 
-    @Inject AlarmManager alarmManager;
-
     @InjectView(R.id.top_priorities_layout) LinearLayout topPrioritiyLayout;
     @InjectView(R.id.not_priorities_layout) LinearLayout notPrioritiyLayout;
 

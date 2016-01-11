@@ -8,6 +8,7 @@ import org.roboguice.shaded.goole.common.collect.Lists;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -74,4 +75,18 @@ public class RuthlessPrefsTest extends AbstractRoboTest {
         prefs.setNotPriorities(testPriorities);
         assertEquals(testPriorities, prefs.getNotPriorities());
     }
+
+    @Test
+    public void testDefaultIsFirstStartUp() {
+        RuthlessPrefs prefs = RuthlessPrefs.fromContext(context);
+        assertTrue(prefs.isFirstStartUp());
+    }
+
+    @Test
+    public void testMarkStartedUp() {
+        RuthlessPrefs prefs = RuthlessPrefs.fromContext(context);
+        prefs.hasStartedUp();
+        assertFalse(prefs.isFirstStartUp());
+    }
+
 }

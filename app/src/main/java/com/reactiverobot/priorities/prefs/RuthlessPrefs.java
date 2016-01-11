@@ -18,6 +18,7 @@ public class RuthlessPrefs {
     private static final String NOT_PRIORITIES_COUNT_PREF = "not_priorities_count_pref";
     private static final String TOP_PRIORITIES = "top_priorities";
     private static final String NOT_PRIORITIES = "not_priorities";
+    private static final String IS_FIRST_STARTUP = "is_first_startup";
 
     private final Context context;
 
@@ -76,5 +77,13 @@ public class RuthlessPrefs {
             Gson gson = new Gson();
             return gson.fromJson(json, new TypeToken<List<String>>(){}.getType());
         }
+    }
+
+    public boolean isFirstStartUp() {
+        return getRuthlessPrefs().getBoolean(IS_FIRST_STARTUP, true);
+    }
+
+    public void hasStartedUp() {
+        getRuthlessPrefs().edit().putBoolean(IS_FIRST_STARTUP, false).apply();
     }
 }
