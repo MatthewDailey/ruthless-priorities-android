@@ -14,8 +14,10 @@ import org.roboguice.shaded.goole.common.collect.Lists;
 import org.robolectric.Robolectric;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
 
@@ -62,6 +64,12 @@ public class ReadPrioritiesActivityTest extends AbstractRoboTest {
         assertEquals(3, notPrioritiesLayout.getChildCount());
         TextView secondPriority = (TextView) notPrioritiesLayout.getChildAt(2);
         assertEquals("p2", secondPriority.getText());
+    }
+
+    @Test
+    public void testSetsStartupPref() {
+        Robolectric.setupActivity(ReadPrioritiesActivity.class);
+        assertFalse(RuthlessPrefs.fromContext(context).isFirstStartUp());
     }
 
 }

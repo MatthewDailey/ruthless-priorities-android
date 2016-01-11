@@ -83,7 +83,7 @@ public class RuthlessPrefs {
         return getRuthlessPrefs().getBoolean(IS_FIRST_STARTUP, true);
     }
 
-    public void hasStartedUp() {
+    public void reportStartedUp() {
         getRuthlessPrefs().edit().putBoolean(IS_FIRST_STARTUP, false).apply();
     }
 }

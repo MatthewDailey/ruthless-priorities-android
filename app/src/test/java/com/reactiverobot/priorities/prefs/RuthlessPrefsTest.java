@@ -85,7 +85,7 @@ public class RuthlessPrefsTest extends AbstractRoboTest {
     @Test
     public void testMarkStartedUp() {
         RuthlessPrefs prefs = RuthlessPrefs.fromContext(context);
-        prefs.hasStartedUp();
+        prefs.reportStartedUp();
         assertFalse(prefs.isFirstStartUp());
     }
 

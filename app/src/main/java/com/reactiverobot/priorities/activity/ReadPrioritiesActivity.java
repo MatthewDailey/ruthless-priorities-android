@@ -2,12 +2,7 @@ package com.reactiverobot.priorities.activity;
 
 import android.app.AlarmManager;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,13 +10,11 @@ import android.widget.TextView;
 
 import com.google.inject.Inject;
 import com.reactiverobot.priorities.R;
-import com.reactiverobot.priorities.broadcast.RuthlessPriorityReminder;
 import com.reactiverobot.priorities.prefs.RuthlessPrefs;
 
 import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
-import roboguice.inject.InjectView;
 
 public class ReadPrioritiesActivity extends RoboActionBarActivity {
 
@@ -30,8 +23,15 @@ public class ReadPrioritiesActivity extends RoboActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent broadcastIntent = new Intent(this, RuthlessPriorityReminder.class);
-        sendBroadcast(broadcastIntent);
+
+        if (RuthlessPrefs.fromContext(this).isFirstStartUp()) {
+            setDailyReminder();
+            RuthlessPrefs.fromContext(this).reportStartedUp();
+        }
+    }
+
+    private void setDailyReminder() {
+        // TODO
     }
 
     @Override
@@ -80,5 +80,5 @@ public class ReadPrioritiesActivity extends RoboActionBarActivity {
         Intent setPrioritiesIntent = new Intent(this, SetPrioritiesActivity.class);
         startActivity(setPrioritiesIntent);
     }
-    
+
 }
