@@ -10,11 +10,13 @@ import com.reactiverobot.priorities.robolectric.AbstractRoboTest;
 import org.junit.Test;
 import org.roboguice.shaded.goole.common.collect.Lists;
 import org.robolectric.Robolectric;
+import org.robolectric.shadows.ShadowToast;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
@@ -59,6 +61,8 @@ public class SetPrioritiesActivityTest extends AbstractRoboTest {
         shadowOf(setPrioritiesActivity).clickMenuItem(R.id.action_save);
 
         assertEquals(Lists.newArrayList(), RuthlessPrefs.fromContext(context).getTopPriorities());
+
+        assertNotNull(ShadowToast.getLatestToast());
     }
 
     @Test
@@ -73,6 +77,8 @@ public class SetPrioritiesActivityTest extends AbstractRoboTest {
         shadowOf(setPrioritiesActivity).clickMenuItem(R.id.action_save);
 
         assertEquals(Lists.newArrayList(), RuthlessPrefs.fromContext(context).getNotPriorities());
+
+        assertNotNull(ShadowToast.getLatestToast());
     }
 
     @Test
@@ -94,6 +100,8 @@ public class SetPrioritiesActivityTest extends AbstractRoboTest {
 
         List<String> expectedNotPriorities = Lists.newArrayList("n1");
         assertEquals(expectedNotPriorities, RuthlessPrefs.fromContext(context).getNotPriorities());
+
+        assertNull(ShadowToast.getLatestToast());
     }
 
 }
