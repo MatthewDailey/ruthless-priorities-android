@@ -34,7 +34,7 @@ public class SetPrioritiesActivityTest extends AbstractRoboTest {
                 R.id.top_priorities_layout);
         assertNotNull(topPriorityLayout);
 
-        assertEquals(4, topPriorityLayout.getChildCount());
+        assertEquals(2, topPriorityLayout.getChildCount());
     }
 
     @Test
@@ -53,13 +53,12 @@ public class SetPrioritiesActivityTest extends AbstractRoboTest {
         LinearLayout topPriorityLayout = (LinearLayout) setPrioritiesActivity.findViewById(
                 R.id.top_priorities_layout);
         ((EditText) topPriorityLayout.getChildAt(1)).setText("p1");
-        ((EditText) topPriorityLayout.getChildAt(2)).setText("p2");
 
         assertTrue(RuthlessPrefs.fromContext(context).getTopPriorities().isEmpty());
 
         shadowOf(setPrioritiesActivity).clickMenuItem(R.id.action_save);
 
-        List<String> expectedTopPriorities = Lists.newArrayList("p1", "p2");
+        List<String> expectedTopPriorities = Lists.newArrayList("p1");
         assertEquals(expectedTopPriorities, RuthlessPrefs.fromContext(context).getTopPriorities());
     }
 

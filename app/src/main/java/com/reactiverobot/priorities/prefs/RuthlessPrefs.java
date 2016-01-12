@@ -14,8 +14,6 @@ public class RuthlessPrefs {
 
     private static final String RUTHLESS_PREFS_FILE = "ruthless_prefs_file";
 
-    private static final String TOP_PRIORITIES_COUNT_PREF = "top_priorities_count_pref";
-    private static final String NOT_PRIORITIES_COUNT_PREF = "not_priorities_count_pref";
     private static final String TOP_PRIORITIES = "top_priorities";
     private static final String NOT_PRIORITIES = "not_priorities";
     private static final String IS_FIRST_STARTUP = "is_first_startup";
@@ -32,22 +30,6 @@ public class RuthlessPrefs {
 
     private SharedPreferences getRuthlessPrefs() {
         return context.getSharedPreferences(RUTHLESS_PREFS_FILE, Context.MODE_PRIVATE);
-    }
-
-    public int getTopPrioritiesCount() {
-        return getRuthlessPrefs().getInt(TOP_PRIORITIES_COUNT_PREF, 3);
-    }
-
-    public void setTopPrioritiesCount(int topPrioritiesCount) {
-        getRuthlessPrefs().edit().putInt(TOP_PRIORITIES_COUNT_PREF, topPrioritiesCount).apply();
-    }
-
-    public int getNotPrioritiesCount() {
-        return getRuthlessPrefs().getInt(NOT_PRIORITIES_COUNT_PREF, 1);
-    }
-
-    public void setNotPrioritiesCount(int notPrioritiesCount) {
-        getRuthlessPrefs().edit().putInt(NOT_PRIORITIES_COUNT_PREF, notPrioritiesCount).apply();
     }
 
     public List<String> getTopPriorities() {
