@@ -2,11 +2,16 @@ package com.reactiverobot.priorities.activity;
 
 import android.app.AlarmManager;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.inject.Inject;
 import com.reactiverobot.priorities.R;
@@ -31,15 +36,25 @@ public class SetPrioritiesActivity extends RoboActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        RuthlessPrefs prefs = RuthlessPrefs.fromContext(this);
-        addEditTextToLayout(prefs.getTopPrioritiesCount(), topPrioritiyLayout);
-        addEditTextToLayout(prefs.getNotPrioritiesCount(), notPrioritiyLayout);
+        addEditTextToLayout(topPrioritiyLayout);
+        addEditTextToLayout(notPrioritiyLayout);
     }
 
-    private void addEditTextToLayout(int editTextCount, LinearLayout layout) {
-        for (int prefIndex = 0; prefIndex < editTextCount; prefIndex++) {
-            layout.addView(new EditText(this));
-        }
+    private EditText addEditTextToLayout(final LinearLayout layout) {
+        EditText editText = new EditText(this);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        editText.setImeActionLabel("Next", KeyEvent.KEYCODE_ENTER);
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                EditText newEditText = addEditTextToLayout(layout);
+                newEditText.requestFocus();
+                return true;
+            }
+        });
+        layout.addView(editText);
+        return editText;
     }
 
     @Override

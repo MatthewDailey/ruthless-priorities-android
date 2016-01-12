@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Priorities</string>
-    <string name="title_activity_read_priorities">Ruthless Priorities</string>
+    <string name="app_name_long">Ruthless Priorities</string>
 </resources>

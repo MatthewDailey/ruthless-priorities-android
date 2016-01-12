@@ -25,7 +25,8 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Top Priorities"
-                    android:id="@+id/textView" />
+                    android:id="@+id/textView"
+                    android:textStyle="italic" />
 
             </LinearLayout>
 
@@ -41,7 +42,8 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Not Priorities"
-                    android:id="@+id/textView2" />
+                    android:id="@+id/textView2"
+                    android:textStyle="italic" />
 
             </LinearLayout>
         </LinearLayout>
