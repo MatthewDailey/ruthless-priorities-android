@@ -42,6 +42,7 @@ public class ReadPrioritiesActivity extends RoboActionBarActivity {
         calendar.set(Calendar.AM_PM, Calendar.AM);
 
         Intent showNotificationIntent = new Intent(this, RuthlessPriorityReminder.class);
+        showNotificationIntent.setAction(RuthlessPriorityReminder.SHOW_NOTIFICATION_ACTION);
         PendingIntent pendingShowNotificationIntent =
                 PendingIntent.getBroadcast(this, 0, showNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
 

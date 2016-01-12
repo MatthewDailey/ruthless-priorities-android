@@ -45,8 +45,9 @@ public class RuthlessPriorityReminderTest extends AbstractRoboTest {
     }
 
     @Test
-    public void testBroadcastCausesNotificationToLaunch() {
+    public void testBroadcastCausesNotificationToLaunchAndHide() {
         Intent broadcastIntent = new Intent(context, RuthlessPriorityReminder.class);
+        broadcastIntent.setAction(RuthlessPriorityReminder.SHOW_NOTIFICATION_ACTION);
 
         getRuthlessPriorityReminderReceiver().get().onReceive(context, broadcastIntent);
 
@@ -54,11 +55,20 @@ public class RuthlessPriorityReminderTest extends AbstractRoboTest {
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE));
         List<Notification> allNotifications = shadowNotificationManager.getAllNotifications();
         assertEquals(1, allNotifications.size());
+
+        Intent broadcastHideIntent = new Intent(context, RuthlessPriorityReminder.class);
+        broadcastHideIntent.setAction(RuthlessPriorityReminder.HIDE_NOTIFICATION_ACTION);
+
+        getRuthlessPriorityReminderReceiver().get().onReceive(context, broadcastHideIntent);
+
+        allNotifications = shadowNotificationManager.getAllNotifications();
+        assertEquals(0, allNotifications.size());
     }
 
     @Test
     public void testBroadcastCausesPrioritiesToClear() {
         Intent broadcastIntent = new Intent(context, RuthlessPriorityReminder.class);
+        broadcastIntent.setAction(RuthlessPriorityReminder.SHOW_NOTIFICATION_ACTION);
 
         RuthlessPrefs prefs = RuthlessPrefs.fromContext(context);
         prefs.setTopPriorities(Lists.newArrayList("p1", "p2"));

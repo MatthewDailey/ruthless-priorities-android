@@ -1,6 +1,8 @@
 package com.reactiverobot.priorities.activity;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -12,9 +14,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.inject.Inject;
 import com.reactiverobot.priorities.R;
+import com.reactiverobot.priorities.broadcast.RuthlessPriorityReminder;
 import com.reactiverobot.priorities.prefs.RuthlessPrefs;
 
 import org.roboguice.shaded.goole.common.collect.Lists;
@@ -68,13 +72,31 @@ public class SetPrioritiesActivity extends RoboActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_save) {
-            RuthlessPrefs.fromContext(this).setTopPriorities(readPrioritiesFromLayout(topPrioritiyLayout));
-            RuthlessPrefs.fromContext(this).setNotPriorities(readPrioritiesFromLayout(notPrioritiyLayout));
-            finish();
+            List<String> topPriorities = readPrioritiesFromLayout(topPrioritiyLayout);
+            List<String> notPriorities = readPrioritiesFromLayout(notPrioritiyLayout);
+
+            if (!topPriorities.isEmpty() && !notPriorities.isEmpty()) {
+                RuthlessPrefs.fromContext(this).setTopPriorities(topPriorities);
+                RuthlessPrefs.fromContext(this).setNotPriorities(notPriorities);
+
+                hideReminderNotification();
+
+                finish();
+            } else {
+                Toast.makeText(this, "You must set at least 1 top priority and at least 1 not" +
+                        " priority.", Toast.LENGTH_LONG).show();
+            }
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void hideReminderNotification() {
+        Intent hideNotificationIntent = new Intent(this, RuthlessPriorityReminder.class);
+        hideNotificationIntent.setAction(RuthlessPriorityReminder.HIDE_NOTIFICATION_ACTION);
+        PendingIntent pendingShowNotificationIntent =
+                PendingIntent.getBroadcast(this, 0, hideNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
     }
 
     /**

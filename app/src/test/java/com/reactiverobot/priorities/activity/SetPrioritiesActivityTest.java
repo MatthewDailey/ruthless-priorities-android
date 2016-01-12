@@ -48,7 +48,7 @@ public class SetPrioritiesActivityTest extends AbstractRoboTest {
     }
 
     @Test
-    public void testSaveTopPrioritiesWithSaveMenuButton() {
+    public void testDoesNotSaveTopPrioritiesWithSaveMenuButton() {
         SetPrioritiesActivity setPrioritiesActivity = Robolectric.setupActivity(SetPrioritiesActivity.class);
         LinearLayout topPriorityLayout = (LinearLayout) setPrioritiesActivity.findViewById(
                 R.id.top_priorities_layout);
@@ -58,12 +58,11 @@ public class SetPrioritiesActivityTest extends AbstractRoboTest {
 
         shadowOf(setPrioritiesActivity).clickMenuItem(R.id.action_save);
 
-        List<String> expectedTopPriorities = Lists.newArrayList("p1");
-        assertEquals(expectedTopPriorities, RuthlessPrefs.fromContext(context).getTopPriorities());
+        assertEquals(Lists.newArrayList(), RuthlessPrefs.fromContext(context).getTopPriorities());
     }
 
     @Test
-    public void testSaveNotPrioritiesWithSaveMenuButton() {
+    public void testDoesNotSaveNotPrioritiesWithSaveMenuButton() {
         SetPrioritiesActivity setPrioritiesActivity = Robolectric.setupActivity(SetPrioritiesActivity.class);
         LinearLayout notPriorityLayout = (LinearLayout) setPrioritiesActivity.findViewById(
                 R.id.not_priorities_layout);
@@ -73,8 +72,28 @@ public class SetPrioritiesActivityTest extends AbstractRoboTest {
 
         shadowOf(setPrioritiesActivity).clickMenuItem(R.id.action_save);
 
+        assertEquals(Lists.newArrayList(), RuthlessPrefs.fromContext(context).getNotPriorities());
+    }
+
+    @Test
+    public void testSaveTopAndNotPrioritiesWithSaveMenuButton() {
+        SetPrioritiesActivity setPrioritiesActivity = Robolectric.setupActivity(SetPrioritiesActivity.class);
+        LinearLayout topPriorityLayout = (LinearLayout) setPrioritiesActivity.findViewById(
+                R.id.top_priorities_layout);
+        ((EditText) topPriorityLayout.getChildAt(1)).setText("p1");
+        LinearLayout notPriorityLayout = (LinearLayout) setPrioritiesActivity.findViewById(
+                R.id.not_priorities_layout);
+        ((EditText) notPriorityLayout.getChildAt(1)).setText("n1");
+
+        assertTrue(RuthlessPrefs.fromContext(context).getTopPriorities().isEmpty());
+
+        shadowOf(setPrioritiesActivity).clickMenuItem(R.id.action_save);
+
         List<String> expectedTopPriorities = Lists.newArrayList("p1");
-        assertEquals(expectedTopPriorities, RuthlessPrefs.fromContext(context).getNotPriorities());
+        assertEquals(expectedTopPriorities, RuthlessPrefs.fromContext(context).getTopPriorities());
+
+        List<String> expectedNotPriorities = Lists.newArrayList("n1");
+        assertEquals(expectedNotPriorities, RuthlessPrefs.fromContext(context).getNotPriorities());
     }
 
 }
