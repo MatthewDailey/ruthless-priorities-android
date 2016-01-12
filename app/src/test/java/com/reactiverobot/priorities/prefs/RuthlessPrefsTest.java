@@ -63,4 +63,15 @@ public class RuthlessPrefsTest extends AbstractRoboTest {
         assertFalse(prefs.isFirstStartUp());
     }
 
+    @Test
+    public void testClearPriorities() {
+        RuthlessPrefs prefs = RuthlessPrefs.fromContext(context);
+        List<String> testPriorities = Lists.newArrayList("p1", "p2");
+        prefs.setTopPriorities(testPriorities);
+        prefs.setNotPriorities(testPriorities);
+        prefs.clearPriorities();
+        assertTrue(prefs.getTopPriorities().isEmpty());
+        assertTrue(prefs.getNotPriorities().isEmpty());
+    }
+
 }

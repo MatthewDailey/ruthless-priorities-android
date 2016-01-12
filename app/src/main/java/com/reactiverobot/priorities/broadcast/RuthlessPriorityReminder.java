@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import com.google.inject.Inject;
 import com.reactiverobot.priorities.R;
 import com.reactiverobot.priorities.activity.SetPrioritiesActivity;
+import com.reactiverobot.priorities.prefs.RuthlessPrefs;
 
 import roboguice.receiver.RoboBroadcastReceiver;
 
@@ -31,6 +32,8 @@ public class RuthlessPriorityReminder extends RoboBroadcastReceiver {
                 .setAutoCancel(true)
                 .setColor(0xBA0000)
                 .setSmallIcon(R.drawable.blank_skull);
+
+        RuthlessPrefs.fromContext(context).clearPriorities();
 
         notificationManager.notify(PRIORITY_REMINDER_ID, notificationbBuilder.build());
     }

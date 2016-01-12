@@ -68,4 +68,8 @@ public class RuthlessPrefs {
     public void reportStartedUp() {
         getRuthlessPrefs().edit().putBoolean(IS_FIRST_STARTUP, false).apply();
     }
+
+    public void clearPriorities() {
+        getRuthlessPrefs().edit().remove(NOT_PRIORITIES).remove(TOP_PRIORITIES).apply();
+    }
 }

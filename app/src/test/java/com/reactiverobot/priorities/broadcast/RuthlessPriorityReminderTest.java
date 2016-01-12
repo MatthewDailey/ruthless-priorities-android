@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
+import com.reactiverobot.priorities.prefs.RuthlessPrefs;
 import com.reactiverobot.priorities.robolectric.AbstractRoboTest;
 
 import org.junit.Test;
@@ -52,6 +54,20 @@ public class RuthlessPriorityReminderTest extends AbstractRoboTest {
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE));
         List<Notification> allNotifications = shadowNotificationManager.getAllNotifications();
         assertEquals(1, allNotifications.size());
+    }
+
+    @Test
+    public void testBroadcastCausesPrioritiesToClear() {
+        Intent broadcastIntent = new Intent(context, RuthlessPriorityReminder.class);
+
+        RuthlessPrefs prefs = RuthlessPrefs.fromContext(context);
+        prefs.setTopPriorities(Lists.newArrayList("p1", "p2"));
+        prefs.setNotPriorities(Lists.newArrayList("n1", "n2"));
+
+        getRuthlessPriorityReminderReceiver().get().onReceive(context, broadcastIntent);
+
+        assertTrue(prefs.getTopPriorities().isEmpty());
+        assertTrue(prefs.getNotPriorities().isEmpty());
     }
 
 }
