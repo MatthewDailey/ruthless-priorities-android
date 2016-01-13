@@ -26,28 +26,11 @@ public class ReadPrioritiesActivity extends RoboActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ReminderUtils.setDailyReminder(this, alarmManager);
         if (RuthlessPrefs.fromContext(this).isFirstStartUp()) {
-            setDailyReminder();
+
             RuthlessPrefs.fromContext(this).reportStartedUp();
         }
-    }
-
-    private void setDailyReminder() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.HOUR, 6);
-        calendar.set(Calendar.AM_PM, Calendar.AM);
-
-        Intent showNotificationIntent = new Intent(this, RuthlessPriorityReminder.class);
-        showNotificationIntent.setAction(RuthlessPriorityReminder.SHOW_NOTIFICATION_ACTION);
-        PendingIntent pendingShowNotificationIntent =
-                PendingIntent.getBroadcast(this, 0, showNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
-
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000*60*60*24,
-                pendingShowNotificationIntent);
     }
 
     @Override

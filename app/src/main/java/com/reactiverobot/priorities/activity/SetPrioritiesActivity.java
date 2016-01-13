@@ -34,9 +34,13 @@ public class SetPrioritiesActivity extends RoboActionBarActivity {
     @InjectView(R.id.top_priorities_layout) LinearLayout topPrioritiyLayout;
     @InjectView(R.id.not_priorities_layout) LinearLayout notPrioritiyLayout;
 
+    @Inject AlarmManager alarmManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        ReminderUtils.setDailyReminder(this, alarmManager);
 
         setContentView(R.layout.activity_main);
 
@@ -95,8 +99,7 @@ public class SetPrioritiesActivity extends RoboActionBarActivity {
     private void hideReminderNotification() {
         Intent hideNotificationIntent = new Intent(this, RuthlessPriorityReminder.class);
         hideNotificationIntent.setAction(RuthlessPriorityReminder.HIDE_NOTIFICATION_ACTION);
-        PendingIntent pendingShowNotificationIntent =
-                PendingIntent.getBroadcast(this, 0, hideNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
+        sendBroadcast(hideNotificationIntent);
     }
 
     /**
