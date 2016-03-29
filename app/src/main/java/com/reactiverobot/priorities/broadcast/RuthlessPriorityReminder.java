@@ -30,7 +30,7 @@ public class RuthlessPriorityReminder extends RoboBroadcastReceiver {
 
             NotificationCompat.Builder notificationbBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle("Ruthless Priorities")
-                    .setContentInfo("Set your top priorities for today.")
+                    .setContentText("Set your top priorities for today.")
                     .setContentIntent(launchSetPrioritiesActivityIntent)
                     .setOngoing(true)
                     .setColor(0xBA0000)

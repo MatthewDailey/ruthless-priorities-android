@@ -13,7 +13,6 @@ public final class ReminderUtils {
     public static void setDailyReminder(Context context, AlarmManager alarmManager) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.HOUR_OF_DAY, 6);
@@ -21,10 +20,10 @@ public final class ReminderUtils {
         Intent showNotificationIntent = new Intent(context, RuthlessPriorityReminder.class);
         showNotificationIntent.setAction(RuthlessPriorityReminder.SHOW_NOTIFICATION_ACTION);
         PendingIntent pendingShowNotificationIntent =
-                PendingIntent.getBroadcast(context, 0, showNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.getBroadcast(context, 0, showNotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         alarmManager.cancel(pendingShowNotificationIntent);
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
                 pendingShowNotificationIntent);
     }
 }

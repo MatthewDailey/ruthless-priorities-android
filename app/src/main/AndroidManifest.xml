@@ -5,15 +5,15 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/red_hat_white_skull"
-        android:label="@string/app_name"
+        android:label="@string/app_name_long"
         android:theme="@style/PrioritiesTheme" >
         <activity
             android:name=".activity.SetPrioritiesActivity"
-            android:label="Set Priorities" >
+            android:label="@string/app_name_long" >
         </activity>
         <activity
             android:name=".activity.ReadPrioritiesActivity"
-            android:label="@string/app_name_long" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

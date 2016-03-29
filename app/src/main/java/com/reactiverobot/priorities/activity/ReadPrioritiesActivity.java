@@ -26,11 +26,8 @@ public class ReadPrioritiesActivity extends RoboActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(getResources().getString(R.string.app_name_long));
         ReminderUtils.setDailyReminder(this, alarmManager);
-        if (RuthlessPrefs.fromContext(this).isFirstStartUp()) {
-
-            RuthlessPrefs.fromContext(this).reportStartedUp();
-        }
     }
 
     @Override
