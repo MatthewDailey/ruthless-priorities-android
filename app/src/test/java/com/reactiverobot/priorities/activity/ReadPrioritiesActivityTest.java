@@ -74,7 +74,6 @@ public class ReadPrioritiesActivityTest extends AbstractRoboTest {
         assertEquals(0, shadowAlarmManager.getScheduledAlarms().size());
 
         Robolectric.setupActivity(ReadPrioritiesActivity.class);
-        assertFalse(RuthlessPrefs.fromContext(context).isFirstStartUp());
         assertEquals(1, shadowAlarmManager.getScheduledAlarms().size());
     }
 

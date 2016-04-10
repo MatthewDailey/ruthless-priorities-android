@@ -16,6 +16,7 @@ public final class ReminderUtils {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.HOUR_OF_DAY, 6);
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
 
         Intent showNotificationIntent = new Intent(context, RuthlessPriorityReminder.class);
         showNotificationIntent.setAction(RuthlessPriorityReminder.SHOW_NOTIFICATION_ACTION);
